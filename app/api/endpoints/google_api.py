@@ -20,8 +20,7 @@ async def get_report(
         wrapper_services: Aiogoogle = Depends(get_service)):
 
     projects = await charity_project_crud.get_projects_by_completion_rate(
-        session
-        )
+        session)
     spreadsheetid = await spreadsheets_create(wrapper_services)
     await set_user_permissions(spreadsheetid, wrapper_services)
     await spreadsheets_update_value(spreadsheetid, projects, wrapper_services)
