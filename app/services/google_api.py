@@ -8,7 +8,7 @@ FORMAT = "%Y/%m/%d %H:%M:%S"
 NOW_DATE_TIME = datetime.now().strftime(FORMAT)
 SPREADSHEETS_BODY = {
     'properties': {
-        'title': f'Отчет на {NOW_DATE_TIME}',
+        'title': f'Отчет на ', # noqa
         'locale': 'ru_RU'}, 'sheets':
             [{'properties':
                 {'sheetType': 'GRID',
@@ -21,6 +21,7 @@ SPREADSHEETS_BODY = {
 async def spreadsheets_create(wrapper_services: Aiogoogle) -> str:
     service = await wrapper_services.discover('sheets', 'v4')
     spreadsheet_body = SPREADSHEETS_BODY
+    spreadsheet_body['properties']['title'] += NOW_DATE_TIME
     response = await wrapper_services.as_service_account(
         service.spreadsheets.create(json=spreadsheet_body))
     return response['spreadsheetId']
